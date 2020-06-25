@@ -1,21 +1,49 @@
+const CompressionPlugin = require("compression-webpack-plugin"); // gzip 压缩
+
 module.exports = {
   mode: "universal",
   env: {},
   /*
    ** Headers of the page
+   *  参考 https://vue-meta.nuxtjs.org/api/#metainfo-properties
+   *
    */
   head: {
     title: process.env.npm_package_name || "",
+    titleTemplate: "Hello - %s",
     meta: [
       { charset: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      {
+        hid: "viewport",
+        name: "viewport",
+        content: "width=device-width, initial-scale=1"
+      },
       {
         hid: "description",
         name: "description",
         content: process.env.npm_package_description || ""
       }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" }
+      // {
+      //   rel: "stylesheet",
+      //   href:
+      //     "https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css"
+      // }
+    ],
+    style: []
+    // script: [
+    //   {
+    //     type: "text/application",
+    //     src: "https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js",
+    //     async: true,
+    //   }
+    // ]
+    // htmlAttrs: {},
+    // headAttrs: {},
+    // bodyAttrs: {},
+    // changed(newInfo, addedTags, removedTags) {}
   },
   /*
    ** Customize the progress-bar color
@@ -30,50 +58,97 @@ module.exports = {
    */
   plugins: [
     "~/plugins/axios.js", // transform modules axios to customize plugins
-    "~/plugins/element-ui",
+    { src: "~/plugins/element-ui" },
     "~/plugins/vue-inject.js",
     "~/plugins/combined-inject.js", // client and server inject
     {
       src: "~/plugins/ctx-inject.js",
-      ssr: true /* 过渡为 mode 参数 */ /* mode:'server', // 2.4 新增 */
+      mode: "client" /* ssr:true */ /* 过渡为 mode 参数, // 2.4 新增 */
     },
     "~/plugins/highInject.client.js", // client side plugin
     "~/plugins/highInject.server.js", // server side plugin
     "~/plugins/highInject.js"
   ],
-  /*
-   ** Nuxt.js dev-modules
+  /**
+   * 服务器端渲染中间件
    */
-  buildModules: [],
+  serverMiddleware: [],
   /*
    ** Nuxt.js modules
    */
-  modules: ["@nuxtjs/axios"],
-  axios: {
-    // host: "www.xcar.com.cn",
-    // port: 80
+  modules: [
+    "~/modules/simple",
+    [
+      "@nuxtjs/axios",
+      {
+        credentials: true,
+        prefix: "/api",
+        retry: { retries: 3 },
+        proxy: true // 此处开启 加载 @nuxtjs/proxy 模块
+      }
+    ], // axios 配置项可写在 modules 内或者和 modules 平级
+    ["@nuxtjs/component-cache", { maxAge: 1000 * 60 * 60 }] // Caching Components
+  ],
+  // proxy 必须在此处配置, @nuxtjs/proxy 模块内部会判断是否有此配置项
+  proxy: {
+    /**
+     * proxy 和 axios baseURL 不能同时使用
+     * 如果使用 proxy 时,需要使用 prefix 代替 baseURL
+     */
+    "/api/": {
+      target: "//localhost:6000",
+      pathRewrite: {
+        changeOrigin: true,
+        "^/api": ""
+      }
+    }
+  },
+  render: {
+    /**
+     * 自定义渲染页面的运行时选项
+     */
+    dist: {
+      maxAge: "1w", // 浏览器端缓存时间
+      setHeaders(res, path, stat) {
+        res.setHeader("Via", "Nuxt.js Server-Side Rendering");
+      }
+    }
   },
   /*
    ** Build configuration
    */
   build: {
-    analyze: false, // 可视化打包分析工具
     /**
      *  extract-css-chunks-webpack-plugin
      *  default: false, 所有样式文件全部写入页面头部
      *           true,  抽取公用css到单独的css文件中自动注入模板
      */
-    // extractCSS: true,
-    // optimizeCSS: true, // when extractCSS is enabled.
+    extractCSS: true,
+    optimizeCSS: true, // when extractCSS is enabled.
     /**
      * ES6 插件
      */
     transpile: [/^element-ui/],
+    plugins: [
+      new CompressionPlugin({
+        test: /\.js$|\.html$|\.css$/,
+        exclude: ["node_modules"],
+        threshold: 8192
+      })
+    ],
+    optimization: {
+      splitChunks: {
+        automaticNameDelimiter: "~",
+        minSize: 30000
+      }
+    },
     /*
      ** You can extend webpack config here
      */
     extend(config, ctx) {
-      console.log(config, ctx);
+      if (ctx.isClient) {
+        // console.log(config);
+      }
     }
   },
   /**
@@ -83,7 +158,7 @@ module.exports = {
     /**
      * 生成的目录名称, 默认 dist
      */
-    dir: "dist",
+    // dir: "dist",
     /**
      * 动态路由参数配置项
      */
@@ -130,6 +205,7 @@ module.exports = {
     /**
      * 应用的每个页面默认的中间件
      */
+    // mode: 'history',
     middleware: []
   },
   /**
@@ -139,9 +215,5 @@ module.exports = {
     port: 3000,
     host: "localhost",
     timing: true
-  },
-  /**
-   * 服务器端渲染中间件
-   */
-  serverMiddleware: []
+  }
 };

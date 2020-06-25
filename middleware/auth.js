@@ -1,3 +1,4 @@
 export default function({ app, redirect }) {
-  return redirect("/news/10001");
+  // app.name = 'hello world';
+  return redirect("/news/101001");
 }

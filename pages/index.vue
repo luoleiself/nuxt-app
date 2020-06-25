@@ -34,16 +34,22 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers(
 );
 
 export default {
+  data(){
+    return {
+      age: 18
+    }
+  },
   asyncData(context) {
     // 异步获取数据渲染组件数据
-    console.log(context);
-    console.log(`是否来自客户端渲染，process.client: `, process.client);
-    console.log(`是否来自服务端渲染，process.server: `, process.server);
-    console.log(
-      `是否来自 Nuxt generate 静态化，process.static: `,
-      process.static
-    );
-    context.app.myInjectedFunction("asyncData");
+    
+    // console.log(context);
+    // console.log(`是否来自客户端渲染，process.client: `, process.client);
+    // console.log(`是否来自服务端渲染，process.server: `, process.server);
+    // console.log(
+    //   `是否来自 Nuxt generate 静态化，process.static: `,
+    //   process.static
+    // );
+    // context.app.myInjectedFunction("asyncData");
     return new Promise((resolve, reject) => {
       resolve();
     }).then(() => {
@@ -71,15 +77,15 @@ export default {
     // 设置内部 router-view 组件的 key 属性
     return route.fullPath;
   },
-  // layout(context) {
-  //   // 设置页面的布局文件
-  //   return "dark";
-  // },
-  // loading: false,
-  middleware: ["auth"],
-  validate({ redirect }) {
-    return redirect("/news/20002");
+  layout(context) {
+    // 设置页面的布局文件
+    return "dark";
   },
+  // loading: false,
+  // middleware: ["auth"],
+  // validate({ redirect }) {
+    // return redirect("/news/20002");
+  // },
   computed: {
     ...mapState(["name"])
   },
@@ -91,12 +97,12 @@ export default {
     Logo
   },
   mounted() {
-    console.log(`是否来自客户端渲染，process.client: `, process.client);
-    console.log(`是否来自服务端渲染，process.server: `, process.server);
-    console.log(
-      `是否来自 Nuxt generate 静态化，process.static: `,
-      process.static
-    );
+    // console.log(`是否来自客户端渲染，process.client: `, process.client);
+    // console.log(`是否来自服务端渲染，process.server: `, process.server);
+    // console.log(
+    //   `是否来自 Nuxt generate 静态化，process.static: `,
+    //   process.static
+    // );
     this.$myInjectedFunction("index.vue");
   }
 };

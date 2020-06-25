@@ -4,5 +4,8 @@ export const state = () => ({
 export const mutations = {
   add(state, payload) {
     state.name = payload;
+  },
+  delete(state, payload) {
+    
   }
 };

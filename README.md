@@ -20,3 +20,7 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+### comment
+
+* webpack.HashedModuleIdsPlugin() 不需要使用此插件做hash保持
