@@ -82,8 +82,8 @@ module.exports = {
       "@nuxtjs/axios",
       {
         credentials: true,
-        prefix: "/api",
         retry: { retries: 3 },
+        prefix: "/api",
         proxy: true // 此处开启 加载 @nuxtjs/proxy 模块
       }
     ], // axios 配置项可写在 modules 内或者和 modules 平级
@@ -96,7 +96,7 @@ module.exports = {
      * 如果使用 proxy 时,需要使用 prefix 代替 baseURL
      */
     "/api/": {
-      target: "//localhost:6000",
+      target: "http://localhost:6000",
       pathRewrite: {
         changeOrigin: true,
         "^/api": ""
@@ -206,14 +206,15 @@ module.exports = {
      * 应用的每个页面默认的中间件
      */
     // mode: 'history',
+    // base: '/aikahao',
     middleware: []
   },
   /**
    * 应用程序服务器配置项
    */
   server: {
-    port: 3000,
-    host: "localhost",
+    host: process.env.HOST || "localhost",
+    port: process.env.PORT || 3000,
     timing: true
   }
 };

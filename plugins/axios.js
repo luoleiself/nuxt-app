@@ -1,30 +1,31 @@
 export default ({ $axios, redirect }, inject) => {
-  // let xhr = $axios.create({
-  //   timeout: 10000,
-  //   headers: {
-  //     "X-Requested-With": "XMLHttpRequest",
-  //     Accept: "application/json"
-  //   }
-  // });
-  $axios.defaults.baseURL = "http://localhost:6000";
-  $axios.onRequest(config => {
-    console.log("config", config.method);
-    // return config;
+  let xhr = $axios.create({
+    timeout: 10000,
+    headers: {
+      common: {
+        "X-Requested-With": "XMLHttpRequest",
+        Accept: "application/json"
+      }
+    }
   });
-  $axios.onResponse(res => {
-    console.log("res", res);
-    // return res;
+  xhr.onRequest(config => {
+    console.log("plugins axios onRequest config...", Object.keys(config));
   });
-  $axios.onError(err => {
-    // if (err.response.status == 404) {
-    //   redirect("/news/"+Math.random().toString(16).substr(2).toUpperCase());
-    // }
+  xhr.onResponse(res => {
+    if (res.status !== 200) {
+      return Promise.reject(res);
+    }
+    return Promise.resolve(res.data);
   });
-  $axios.onRequestError(err => {
+  xhr.onRequestError(err => {
     console.log(err);
-    // return Promise.reject(err);
   });
-  $axios.onResponseError(err => {});
+  xhr.onResponseError(err => {
+    console.log(err);
+  });
+  xhr.onError(err => {
+    console.log(err);
+  });
 
-  // inject("xhr", xhr);
+  inject("xhr", xhr);
 };

@@ -51,7 +51,7 @@ export default {
     // );
     // context.app.myInjectedFunction("asyncData");
     return new Promise((resolve, reject) => {
-      resolve();
+      resolve({});
     }).then(() => {
       return {
         title: "this msg from asyncDdata method",
@@ -61,11 +61,7 @@ export default {
   },
   fetch(context) {
     // 异步获取数据填充状态树vuex
-    return new Promise((resolve, reject) => {
-      resolve("fetch method");
-    }).then(res => {
-      console.log(`console from index.vue: ${res}`);
-    });
+    
   },
   head() {
     // 设置本页头部 Object | Function
@@ -73,6 +69,7 @@ export default {
       title: "Hello Nuxt"
     };
   },
+  middleware: ["auth"],
   key(route) {
     // 设置内部 router-view 组件的 key 属性
     return route.fullPath;
@@ -103,7 +100,7 @@ export default {
     //   `是否来自 Nuxt generate 静态化，process.static: `,
     //   process.static
     // );
-    this.$myInjectedFunction("index.vue");
+    // this.$myInjectedFunction("index.vue");
   }
 };
 </script>

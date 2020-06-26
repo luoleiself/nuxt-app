@@ -2,13 +2,13 @@ module.exports = {
   apps: [
     {
       name: "nuxt-app",
-      watch: true,
-      instances: 0,
       script: "./server/index.js",
       exec_mode: "cluster",
+      instances: 0,
       restart_delay: 2000,
       min_uptime: "120s",
       max_restarts: 10,
+      watch: true,
       ignore_watch: ["node_modules"],
       env: {
         NODE_ENV: "production"

@@ -1,13 +1,20 @@
 <template>
   <div>
     Come from pages news content.vue
-    <p class="name-box">{{name}}--- {{len}}</p>
+    <ul>
+      <li v-for="(item,index) in list" :key="index">{{item.id}}---{{item.name}}----{{item.color}}</li>
+    </ul>
+    <p v-if="len%2 === 0">len is even!</p>
+    <p v-else>len is odd!</p>
     <nuxt-link to="/news">to news.vue</nuxt-link>
     <el-button type="primary" v-on:click="elBtnClick">Click Me</el-button>
   </div>
 </template>
 <script>
 export default {
+  data() {
+    return {};
+  },
   async asyncData({ app, store, route, params, query, redirect, $axios }) {
     // console.log(process.env.NODE_ENV);
     // console.log("asyncData context keys: ", Object.keys(context));
@@ -21,23 +28,24 @@ export default {
       .substr(2)
       .toUpperCase();
     let len = Math.floor(Math.random() * 10 + 1);
-    // let result = (await context.$axios.get(`/${name}`)).data;
-    // let result = await app.$xhr.get(`/${name}`);
     // $axios
-    //   .get(`/${name}`)
+    //   .get("123", { params: { name: "hello world", age: 18 } })
     //   .then(res => {
-    //     console.log(res);
+    //     console.log("res", res.status);
     //   })
     //   .catch(err => {
-    //     console.log(err.message);
+    //     console.log(err);
     //   });
-    let result = "hello world";
-    // console.log(result);
+    let result = await app.$xhr.get("123", {
+      params: { name: `${name}`, age: 18 }
+    });
     console.log("<-------------------------------------------------------->");
     return {
       title: "pages news content.vue",
-      name: (result + " ").repeat(len),
-      len
+      // name: (result + " ").repeat(len),
+      len,
+      ...result
+      // ...result
     };
   },
   fetch({ app }) {},
@@ -48,16 +56,21 @@ export default {
     return {};
   },
   methods: {
-    elBtnClick($evt) {
+    async elBtnClick($evt) {
       console.log($evt);
-      this.$axios
-        .get(`/ceshipm2log`)
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      let result = await this.$xhr.post("/gg", {
+        name: "hello world",
+        age: 18
+      });
+      console.log(result);
+      // this.$xhr
+      //   .get(`/gg`, { params: { name: "hello world", age: 18 } })
+      //   .then(res => {
+      //     console.log(res);
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
     }
   },
   created() {
