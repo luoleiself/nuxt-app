@@ -9,6 +9,7 @@ export default ({ $axios, redirect }, inject) => {
     }
   });
   xhr.onRequest(config => {
+    console.log(config);
     console.log("plugins axios onRequest config...", Object.keys(config));
   });
   xhr.onResponse(res => {
