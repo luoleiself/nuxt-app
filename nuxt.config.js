@@ -77,7 +77,7 @@ module.exports = {
    ** Nuxt.js modules
    */
   modules: [
-    "~/modules/simple",
+    ["~/modules/simple", { name: "hello world", age: 18 }], // 自定义模式
     [
       "@nuxtjs/axios",
       {
@@ -87,8 +87,15 @@ module.exports = {
         proxy: true // 此处开启 加载 @nuxtjs/proxy 模块
       }
     ], // axios 配置项可写在 modules 内或者和 modules 平级
-    ["@nuxtjs/component-cache", { maxAge: 1000 * 60 * 60 }] // Caching Components
+    ["@nuxtjs/component-cache", { maxAge: 1000 * 60 * 60 }], // Caching Components
+    "@nuxtjs/style-resources" // 全局css变量,混入,方法自动导入模块，styleResources 配置项不能放在此处，会报错!
   ],
+  /**
+   * @nuxtjs/style-resources 在 build 内的 styleResources 配置项已废弃.
+   */
+  styleResources: {
+    scss: ["./assets/css/vars/*.scss", "./assets/css/mixin/*.scss"]
+  },
   // proxy 必须在此处配置, @nuxtjs/proxy 模块内部会判断是否有此配置项
   proxy: {
     /**
@@ -125,6 +132,11 @@ module.exports = {
      */
     extractCSS: true,
     optimizeCSS: true, // when extractCSS is enabled.
+    // postcss: {
+    //   preset: {
+    //     autoprefixer: { grid: "autoplace" }
+    //   }
+    // },
     /**
      * ES6 插件
      */
