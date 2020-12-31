@@ -215,8 +215,17 @@ module.exports = {
      * 应用的每个页面默认的中间件
      */
     // mode: 'history',
-    base: "/aikahao",
-    middleware: []
+    base: "/", // 根路径 default '/'
+    routeNameSplitter: "/", // 路径分隔符 default '-'
+    // linkActiveClass: 'nuxt-link-active', // 活动类名
+    // linkExactActiveClass: "nuxt-link-exact-active", // default "nuxt-link-exact-active"
+    // linkPrefetchedClass: 'nuxt-link-prefetched', // default false
+    // extendRoutes: function(routes, resolve){}, // 扩展 nuxtJs 创建的路由
+    // parseQuery/stringifyQuery: function(){}, // 格式化参数
+    // scrollBehavior: function(to, from, savedPosition){}, // 跳转后目标页面滚动位置
+    // prefetchLinks: true, // 配置代码分割页面, default true
+    // fallback: false, // default false // 当 mode 为 history，浏览器不支持 history.pushState 时是否应回退
+    middleware: [] // 每个页面的中间件 string / array
   },
   /**
    * 应用程序服务器配置项
