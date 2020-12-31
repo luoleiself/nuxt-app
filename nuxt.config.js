@@ -121,6 +121,10 @@ module.exports = {
       }
     }
   },
+  /**
+   * 构建默认目录，注释为默认值
+   */
+  // buildDir: ".nuxt",
   /*
    ** Build configuration
    */
@@ -130,13 +134,10 @@ module.exports = {
      *  default: false, 所有样式文件全部写入页面头部
      *           true,  抽取公用css到单独的css文件中自动注入模板
      */
+    publicPath: "_nuxt",
     extractCSS: true,
     optimizeCSS: true, // when extractCSS is enabled.
-    // postcss: {
-    //   preset: {
-    //     autoprefixer: { grid: "autoplace" }
-    //   }
-    // },
+    // postcss: {},
     /**
      * ES6 插件
      */
@@ -195,10 +196,6 @@ module.exports = {
     }
   },
   /**
-   * 构建默认目录，注释为默认值
-   */
-  // buildDir: ".nuxt",
-  /**
    * nuxt 应用的根目录，注释为默认值
    */
   // rootDir: process.cwd(),
@@ -218,7 +215,7 @@ module.exports = {
      * 应用的每个页面默认的中间件
      */
     // mode: 'history',
-    // base: '/aikahao',
+    base: "/aikahao",
     middleware: []
   },
   /**

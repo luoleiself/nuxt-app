@@ -8,6 +8,7 @@
     <p v-else>len is odd!</p>
     <nuxt-link to="/news">to news.vue</nuxt-link>
     <el-button type="primary" v-on:click="elBtnClick">Click Me</el-button>
+    <span class="trans_eg" :class="{'trans_active': trans_flag}"></span>
     <h1 class="name-box">@nuxtjs/style-resources example...</h1>
     <div class="mixin-box">
       <span></span>
@@ -22,6 +23,9 @@
       <span></span>
       <span></span>
       <span></span>
+    </div>
+    <div>
+      <input class="input_cls" type="text" name="test" placeholder="Please try later..." />
     </div>
   </div>
 </template>
@@ -68,7 +72,9 @@ export default {
     return "default";
   },
   data() {
-    return {};
+    return {
+      trans_flag: false,
+    };
   },
   methods: {
     async elBtnClick($evt) {
@@ -78,6 +84,7 @@ export default {
         age: 18
       });
       console.log(result);
+      this.trans_flag = !this.trans_flag;
       // this.$xhr
       //   .get(`/gg`, { params: { name: "hello world", age: 18 } })
       //   .then(res => {
@@ -116,6 +123,18 @@ export default {
   font-size: 18px;
   color: $color-08f;
 }
+.trans_eg{
+  display: inline-block;
+  margin-left: 10px;
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+  border: 1px solid #bbb;
+  transition: all .5s linear;
+}
+.trans_active{
+  width: 200px;
+}
 .mixin-box {
   height: 200px;
   line-height: 200px;
@@ -127,6 +146,24 @@ export default {
     height: 50px;
     box-sizing: border-box;
     border: 1px solid #aaa;
+    animation: animations 2s ease-out infinite;
+  }
+}
+@keyframes animations {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 .flex-box {
@@ -141,5 +178,8 @@ export default {
     height: 50px;
     border: 1px solid #aaa;
   }
+}
+::placeholder {
+  color: red;
 }
 </style>
