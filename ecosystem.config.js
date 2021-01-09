@@ -11,9 +11,13 @@ module.exports = {
       watch: true,
       ignore_watch: ["node_modules"],
       env: {
+        PORT: 3000,
+        NODE_ENV: "development"
+      },
+      env_production: {
+        PORT: 80,
         NODE_ENV: "production"
       },
-      env_production: {},
       log_date_format: "YYYY/MM/DD HH:mm:ss",
       error_file: "./logs/error.log",
       out_file: "./logs/out.log"
