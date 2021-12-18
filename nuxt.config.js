@@ -1,4 +1,4 @@
-const CompressionPlugin = require("compression-webpack-plugin"); // gzip 压缩
+// const CompressionPlugin = require("compression-webpack-plugin"); // gzip 压缩
 
 module.exports = {
   mode: "universal",
@@ -134,25 +134,26 @@ module.exports = {
      *  default: false, 所有样式文件全部写入页面头部
      *           true,  抽取公用css到单独的css文件中自动注入模板
      */
-    publicPath: "_nuxt",
+    // publicPath: "_nuxt",
     extractCSS: true,
     optimizeCSS: true, // when extractCSS is enabled.
+    terser: true,
+    // parallel: true,
     // postcss: {},
     /**
      * ES6 插件
      */
     transpile: [/^element-ui/],
     plugins: [
-      new CompressionPlugin({
-        test: /\.js$|\.html$|\.css$/,
-        exclude: ["node_modules"],
-        threshold: 8192
-      })
+      // new CompressionPlugin({
+      //   test: /\.js$|\.html$|\.css$/,
+      //   exclude: ["node_modules"],
+      //   threshold: 8192
+      // })
     ],
     optimization: {
       splitChunks: {
         automaticNameDelimiter: "~",
-        minSize: 30000
       }
     },
     /*

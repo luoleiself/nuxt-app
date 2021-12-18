@@ -24,3 +24,5 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 ### comment
 
 * webpack.HashedModuleIdsPlugin() 不需要使用此插件做hash保持
+- 2.13.0 组件自动导入
+- 脚手架创建项目安装步骤不再提示服务器端框架选择提示
