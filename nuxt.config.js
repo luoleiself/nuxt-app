@@ -26,24 +26,17 @@ module.exports = {
     ],
     link: [
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" }
-      // {
-      //   rel: "stylesheet",
-      //   href:
-      //     "https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css"
-      // }
+      // { rel: "stylesheet", href: "//cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css" }
     ],
-    style: []
-    // script: [
-    //   {
-    //     type: "text/application",
-    //     src: "https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js",
-    //     async: true,
-    //   }
-    // ]
+    // style: [{ cssText: ".foo { color: red}", type: "text/css" }]
+    script: [
+      // { type: "text/application", src: "//cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js", async: true, defer: true }
+    ]
     // htmlAttrs: {},
     // headAttrs: {},
     // bodyAttrs: {},
-    // changed(newInfo, addedTags, removedTags) {}
+    // changed(newInfo, addedTags, removedTags) { /* A callback function which is called whenever the metaInfo updates / changes. */ },
+    // afterNavigation(newInfo){ /* A callback function which is called when vue-meta has updated the metadata after navigation occurred */}
   },
   /*
    ** Customize the progress-bar color
@@ -153,7 +146,7 @@ module.exports = {
     ],
     optimization: {
       splitChunks: {
-        automaticNameDelimiter: "~",
+        automaticNameDelimiter: "~"
       }
     },
     /*
